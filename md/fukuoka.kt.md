@@ -20,6 +20,7 @@
 
 ## 関数型プログラミング
 
+java
 ```java
 class User{
     private String name;
@@ -32,6 +33,7 @@ class User{
 }
 ```
 
+kotlin
 ```kotlin
 class User{
     var name : String
