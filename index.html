@@ -20,31 +20,19 @@
 			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
 			document.getElementsByTagName( 'head' )[0].appendChild( link );
 
+
     </script>
 </head>
 <body>
 
 <div class="reveal">
     <div class="slides">
-        <section data-markdown="md/fukuoka.kt1.md"
-                 data-separator="^\n\n\n"
-                 data-separator-vertical="^\n\n"
-                 data-separator-notes="^Note:"
-                 data-charset="utf-8">
+        <section data-markdown="md/fukuoka.kt.md"
+                 data-separator="\n---\n$"
+                 data-vertical="\n--\n">
+            <script type="text/template">    </script>
         </section>
-        <section data-markdown="md/fukuoka.kt2.md"
-                 data-separator="^\n\n\n"
-                 data-separator-vertical="^\n\n"
-                 data-separator-notes="^Note:"
-                 data-charset="utf-8">
-        </section>
-        <section data-markdown="md/fukuoka.kt3.md"
-                 data-separator="^\n\n\n"
-                 data-separator-vertical="^\n\n"
-                 data-separator-notes="^Note:"
-                 data-charset="utf-8">
-        </section>
-        </section>
+
     </div>
 </div>
 
@@ -63,6 +51,7 @@
 					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
 				]
 			});
+
 
 </script>
 </body>
