@@ -1,4 +1,4 @@
-# イディオム・パターン
+## Javaと比べたKotlinの特徴
 - 関数型プログラミング
 - Nullable, NotNull
 - Property
