@@ -36,12 +36,12 @@ Android フリーランスプログラマー
 ## 型推論
 java
 ```java
-String str = "text";
+String dogName = "もなか";
 ```
 kotlin
 ```kotlin
-val str :String = "text"
-val str = "text"
+val dogName :String = "もなか"
+val dogName = "もなか"
 ```
 
 ---
@@ -230,19 +230,19 @@ createDog(address="住所", name=name, color=0xFFFFFF, age=3,
 ## Null Safety 1
 java
 ```java
-public void hag(Dog dog){
+public void hug(Dog dog){
     // もし dog == null なら NullPointerException が起きる 
     String name = dog.getName(); 
 }
 ```
 kotlin
 ```kotlin
-fun hag(dog : Dog){
+fun hug(dog : Dog){
     val name = dog.name
     //...
 }
 val dog : Dog? = /***/
-hag(dog)// この時点でnullの可能性があるdogインスタンスを渡すとコンパイルエラー
+hug(dog)// この時点でnullの可能性があるdogインスタンスを渡すとコンパイルエラー
 ```
 
 ---
@@ -250,7 +250,7 @@ hag(dog)// この時点でnullの可能性があるdogインスタンスを渡�
 ## Null Safety 2
 kotlin
 ```kotlin
-fun hag(dog : Dog?){ //nullかもしれないdogを受け取ることが可能になる
+fun hug(dog : Dog?){ //nullかもしれないdogを受け取ることが可能になる
     val name1 = dog.name // dogはnullかもしれないのでコンパイルエラー
     val name2 : String? = dog?.name // name2には文字列かnullが代入される
     
