@@ -194,9 +194,9 @@ binding {
 ### DataBindingの入れ子にアクセスしやすくなったような気がする
 ---
 
+## まとめ
 ### 拡張関数すごい
 
-##まとめ
-
 これを買おう
+
 ![](img/kotlininaction.jpg)
