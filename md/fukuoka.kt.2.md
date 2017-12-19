@@ -199,4 +199,6 @@ binding {
 
 これを買おう
 
+Have a Nice Kotlin
+
 ![](img/kotlininaction.jpg)
