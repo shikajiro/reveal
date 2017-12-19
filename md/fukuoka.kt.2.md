@@ -117,7 +117,7 @@ str.lastChar = 'u' // shikajiru
 ---
 
 ```kotlin
-var binding:ActivityLoginBinding
+var binding:ParentBinding
 binding.email.emailView.setText("shikajiro@gmail.com")
 binding.password.passwordView.setText("password")
 //略
@@ -125,7 +125,7 @@ binding.password.passwordView.setText("password")
 ---
 
 ```kotlin
-fun login(binding:ActivityLoginBinding) {
+fun login(binding:ParentBinding) {
     binding.email.emailView.setText("shikajiro@gmail.com")
     binding.password.passwordView.setText("password")
 }
@@ -134,7 +134,7 @@ login(binding)
 ---
 
 ```kotlin
-fun ActivityLoginBinding.login() {
+fun ParentBinding.login() {
     email.emailView.setText("shikajiro@gmail.com")
     password.passwordView.setText("password")
 }
@@ -151,30 +151,12 @@ binding.apply({ //this
 ---
 
 ```kotlin
-fun ActivityLoginBinding.login(block: ActivityLoginBinding.() -> Unit) {
+fun ParentBinding.login(block: ParentBinding.() -> Unit) {
     block()
 }
 binding.login{
   email.emailView.setText("shikajiro@gmail.com")
   password.passwordView.setText("password")
-}
-```
----
-
-```kotlin
-fun PartEmailBinding.login(block: PartEmailBinding.() -> Unit) {
-    block()
-}
-fun PartPasswordBinding.login6(block: PartPasswordBinding.() -> Unit) {
-    block()
-}
-binding.login {
-  email.login {
-    emailView.setText("shikajiro@gmail.com")
-  }
-  password.login {
-    passwordView.setText("password")
-  }
 }
 ```
 ---
@@ -213,3 +195,8 @@ binding {
 ---
 
 ### 拡張関数すごい
+
+##まとめ
+
+これを買おう
+![](img/kotlininaction.jpg)
