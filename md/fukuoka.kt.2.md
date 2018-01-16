@@ -1,4 +1,4 @@
-## Kotlin で Extension
+## Kotlin で Test
 
 ![](img/shikajiro.jpg)
 
@@ -8,197 +8,188 @@ Android フリーランスプログラマー
 
 ---
 
-## Extension(拡張関数)とは
+## 今日紹介するもの
+### kotlintest
+### spek
 
-既存クラスにメソッドを追加できる
-
-```kotlin
-val last = "shikajiro".lastChar()
-```
 ---
 
-### 文字列の最後を取得したい
-```
-val str = "shikajiro"
-str.get(str.length - 1)
-```
----
-
-### static method 
-```
-class StringUtil{
-  companion object {
-    fun lastChar(str:String):Char{
-      return str.get(str.length - 1)
+## Java
+```java
+public class CalculatorTest {
+    @Test
+    public void testSum() throws Exception {
+        Calculator calculator = new Calculator();
+        assertEquals(300, calculator.sum(200, 10));
     }
-  }
 }
-StringUtil.lastChar(str)
 ```
+
 ---
 
-### singleton
-```
-object StringUtil{
-  fun lastChar(str:String):Char{
-    return str.get(str.length - 1)
-  }
-}
-StringUtil.lastChar(str)
-```
----
-
-### instance method
+### Kotlin
 ```kotlin
-fun lastChar(str:String):Char{
-  return str.get(str.length - 1)
-}
-lastChar(str)
-```
----
-
-### Extension(拡張関数)
-```kotlin
-fun String.lastChar():Char{
-  return this.get(this.length - 1)
-}
-str.lastChar()
-```
----
-
-### Extension の書き方
-```kotlin
-fun レシーバ型.lastChar() = 
-    レシーバオブジェクト.get(length -1)
-```
----
-
-### 省略
-```kotlin
-fun String.lastChar() = get(length -1)
-```
----
-
-### Extension
-Java の Static Method とほぼ同等。書きやすく、読みやすく、呼びやすくしたもの。
-可読性の良いStatic Method。
-
-##### 拡張関数でできないこと
-カプセル化はやぶれない
----
-
-### 拡張プロパティ
-```
-val StringBuilder.lastChar: Char
-    get() = get(length -1)
-    set(value: Char) {
-        setCharAt(length -1, value)
+class CalculatorTest {
+    @Test
+    fun testSum() {
+        val calculator = Calculator()
+        assertEquals(300, calculator.sum(200, 100))
     }
-val last = str.lastChar // shikajiro
-str.lastChar = 'u' // shikajiru
+}
 ```
+
 ---
 
-### 拡張ラムダ
-あとで
+## KotlinTest
+
+Scalatest 風 便利テストライブラリ
+
 ---
 
-## DataBinding でやってみる
-```xml
-<layout>
-<LinearLayout>
-    <include 
-        android:id="@+id/email" />
-    <include 
-        android:id="@+id/password"/>
-</LinearLayout>
-</layout>
+## KotlinTest
+```kotlin
+class SimpleKotlinTest : StringSpec() {
+    init {
+        "Calculator.sum should return all total value" {
+            val calculator = Calculator()
+            calculator.sum(200, 100) shouldBe 300
+        }
+    }
+}
 ```
+
+---
+
+### Property Testing
+
+1000回テストをする
+```kotlin
+"Calculator.sum random test" {
+    forAll { i: Int, j: Int ->
+        Calculator().sum(i, j) == i + j
+    }
+}
+```
+
 ---
 
 ```kotlin
-var binding:ParentBinding
-binding.email.emailView.setText("shikajiro@gmail.com")
-binding.password.passwordView.setText("password")
-//略
+"Calculator.sum table test" {
+    val table = table(
+            headers("a", "b", "result"),
+            row(1, 2, 3),
+            row(1, 1, 2)
+    )
+    forAll(table) { a, b, result ->
+        Calculator().sum(a, b) shouldBe result
+    }
+}
 ```
+
+---
+
+## Spek
+
+RSpec風な読みやすいテストライブラリ
+
+---
+
+
+```kotlin
+class SimpleSpek : Spek(
+    {
+        given("一般的な計算を行うクラス") {
+            val calculator = Calculator()
+            on("合計値を計算する") {
+                val value = calculator.sum(200, 10)
+                it("300になる") {
+                    assertEquals(300, value)
+                }
+            }
+        }
+    })
+```
+
+---
+
+<img src="img/spek1.png" width=1200px>
+
+---
+
+### style
+
+|||
+|:---|:---|
+|given, on, it|基本|
+|describe, it|Jasmine, Mocha|
+
 ---
 
 ```kotlin
-fun login(binding:ParentBinding) {
-    binding.email.emailView.setText("shikajiro@gmail.com")
-    binding.password.passwordView.setText("password")
+given("コンテキスト") {
+    val calculator = Calculator()
+    on("処理") {
+        val value = calculator.sum(200, 100)
+        it("検証") {
+            assertEquals(300, value)
+        }
+    }
 }
-login(binding)
 ```
+
 ---
 
 ```kotlin
-fun ParentBinding.login() {
-    email.emailView.setText("shikajiro@gmail.com")
-    password.passwordView.setText("password")
+describe("コンテキスト"){
+    val calculator = Calculator()
+    it("処理と検証"){
+        val value = calculator.sum(200, 100)
+        assertEquals(300, value)
+    }
 }
-binding.login()
 ```
+
 ---
+
+### assertion
+
+|||
+|:---|:---|
+|kotlin-test|assertEquals(a, b)|
+|HamKrest|assert.that(a, b)|
+|Expekt|a.should.equal(b)|
+|Kluent|a shouldEqual b|
+
+---
+
+### Fixtures
 
 ```kotlin
-binding.apply({ //this
-  email.emailView.setText("shikajiro@gmail.com")
-  password.passwordView.setText("password")
-})
+describe("a group") {
+    beforeGroup { println("describe beforeGroup") /* 1 */ }
+    beforeEachTest { println("describe beforeEachTest") /* 2, 7 */ }
+    context("a nested group") {
+        beforeEachTest { println("context beforeEachTest1") /* 3 */}
+        beforeEachTest { println("context beforeEachTest2") /* 4 */}
+        it("should work") { println("context it should work") /* 5 */}
+    }
+    it("do something") { println("describe it do something") /* 8 */}
+    afterEachTest { println("describe afterEachTest") /* 6, 9 */}
+    afterGroup { println("describe afterGroup") /* 10 */}
+}
 ```
----
+
+### Subjects
+
+※実験的機能
 
 ```kotlin
-fun ParentBinding.login(block: ParentBinding.() -> Unit) {
-    block()
-}
-binding.login{
-  email.emailView.setText("shikajiro@gmail.com")
-  password.passwordView.setText("password")
-}
+object SimpleSubjectSpek : SubjectSpek<Calculator>(
+    {
+        subject { Calculator() }
+
+        it("should return the result of adding the first number to the second number") {
+            assertEquals(6, subject.sum(2, 4))
+        }
+    })
 ```
----
-
-```kotlin
-fun <T : ViewDataBinding> T.login(block: T.() -> Unit){
-    block()
-}
-binding.login {
-  email.login {
-    emailView.setText("shikajiro@gmail.com")
-  }
-  password.login {
-    passwordView.setText("password")
-  }
-}
-```
----
-
-```kotlin
-operator fun <T : ViewDataBinding> T.invoke(block: T.() -> Unit){
-    block()
-}
-binding {
-  email {
-    emailView.setText("shikajiro@gmail.com")
-  }
-  password {
-    passwordView.setText("password")
-  }
-}
-```
----
-
-### DataBindingの入れ子にアクセスしやすくなったような気がする
----
-
-## まとめ
-### 拡張関数すごい
-
-これを買おう
-
-Have a Nice Kotlin
-
-![](img/kotlininaction.jpg)
