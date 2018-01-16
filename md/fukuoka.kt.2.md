@@ -166,30 +166,14 @@ describe("コンテキスト"){
 
 ```kotlin
 describe("a group") {
-    beforeGroup { println("describe beforeGroup") /* 1 */ }
-    beforeEachTest { println("describe beforeEachTest") /* 2, 7 */ }
+    beforeGroup { /* 1 */ }
+    beforeEachTest { /* 2, 6 */ }
     context("a nested group") {
-        beforeEachTest { println("context beforeEachTest1") /* 3 */}
-        beforeEachTest { println("context beforeEachTest2") /* 4 */}
-        it("should work") { println("context it should work") /* 5 */}
+        beforeEachTest { /* 3 */ }
+        it("should work") { /* 4 */ }
     }
-    it("do something") { println("describe it do something") /* 8 */}
-    afterEachTest { println("describe afterEachTest") /* 6, 9 */}
-    afterGroup { println("describe afterGroup") /* 10 */}
+    it("do something") { /* 7 */ }
+    afterEachTest { /* 5, 8 */ }
+    afterGroup { /* 9 */ }
 }
-```
-
-### Subjects
-
-※実験的機能
-
-```kotlin
-object SimpleSubjectSpek : SubjectSpek<Calculator>(
-    {
-        subject { Calculator() }
-
-        it("should return the result of adding the first number to the second number") {
-            assertEquals(6, subject.sum(2, 4))
-        }
-    })
 ```
